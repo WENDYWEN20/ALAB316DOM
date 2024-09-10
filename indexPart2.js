@@ -85,6 +85,7 @@ var menuLinks = [
 },
 ];
 //adding the menuLink to the navBar
+console.log(menuLinks)
 
 menuLinks.forEach((link)=>{
       const a=document.createElement('a')
@@ -92,6 +93,7 @@ menuLinks.forEach((link)=>{
       a.textContent=link.text
       topMenuEl.appendChild(a)
   });
+console.log(topMenuEl)
 
 // Grabbing all topMenuEl <a> elements
 const topMenuLinks = document.querySelectorAll("a");
@@ -107,8 +109,6 @@ topMenuEl.addEventListener("click", function (e) {
   }
 
   //Log the content of the <a> to verify the handler is working.
-  console.log(e.target.textContent);
-
 
   //The event listener should add the active class to the <a> element that was clicked, unless it was already active, in which case it should remove it.
   e.target.classList.toggle("active");
@@ -118,6 +118,7 @@ topMenuEl.addEventListener("click", function (e) {
       link.classList.remove("active");
     }
   });
+  console.log(topMenuLinks)
   //===Part 5 - Adding Submenu Interaction===
   //Within the event listener, if the clicked <a> element does not yet have a class of "active" (it was inactive when clicked):
   //If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
@@ -151,15 +152,40 @@ topMenuEl.addEventListener("click", function (e) {
     });
   }
 });
-
+console.log(subMenuEl)
 //Attach a delegated 'click' event listener to subMenuEl.
-// The first line of code of the event listener function should call the event object's preventDefault() method.
-// The second line of code within the function should immediately return if the element clicked was not an <a> element.
-// Log the content of the <a> to verify the handler is working.
+subMenuEl.addEventListener('click', function(event){
+  // The first line of code of the event listener function should call the event object's preventDefault() method.
+  event.preventDefault();
+  // The second line of code within the function should immediately return if the element clicked was not an <a> element.
+  if (!event.target.matches('a')){return}
+
+  // Log the content of the <a> to verify the handler is working.
+  console.log(event.target.textContent);
+
 // Next, the event listener should set the CSS top property of subMenuEl to 0.
+  subMenuEl.style.top='0';
 // Remove the active class from each <a> element in topMenuLinks.
+topMenuLinks.forEach(link=> {
+  link.classList.remove('active')
+ })
+
+
 // Update the contents of mainEl, within an <h1>, to the contents of the <a> element clicked within subMenuEl.
-// If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
+const linkClicked=event.target.textContent
+console.log(linkClicked)
+mainEl.innerHTML=linkClicked
+  // If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
+  if (linkClicked.toLowerCase() ==='about'){
+    mainEl.innerHTML='About'
+  }
+
+}
+)
+
+
+
+
 
 
 
