@@ -28,37 +28,15 @@ topMenuEl.style.backgroundColor='var(--top-menu-bg)'
 //Q4.Add a class of flex-around to topMenuEl.
 topMenuEl.setAttribute('class','flex-around')
 
-//Part 3: Adding Menu Buttons
-// Menu data structure
-//adding menu links to the nav bar
-//Update menu structure
-// var menuLinks = [
-//     { text: 'about', href: '/about' },
-//     { text: 'catalog', href: '/catalog' },
-//     { text: 'orders', href: '/orders' },
-//     { text: 'account', href: '/account' },
-//   ];
 
-// for (i=0;i<menuLinks.length; i++) {
-//     let alink=menuLinks[i]['href'];
-//     let topMenuLink=topMenuEl.appendChild(document.createElement('a')).href=alink
-//     let text=menuLinks[i]['text'];
-//     let topMenuText=topMenuEl.appendChild(document.createElement('a')).textContent=text}
-    
-
-//========ALAB 316.3.1 Part 3 - Adding interactivity===========
-//Add EventListener
-//Part 3: Creating the Submenu
-//Select and cache the <nav id="sub-menu"> element in a variable named subMenuEl.
-// Set the height subMenuEl element to be "100%".
-// Set the background color of subMenuEl to the value stored in the --sub-menu-bg CSS custom property.
-// Add the class of flex-around to the subMenuEl element.
 const subMenuEl=document.getElementById("sub-menu")
 subMenuEl.style.height="100%"
 subMenuEl.style.backgroundColor='var(--sub-menu-bg)'
 subMenuEl.setAttribute('class','flex-around')
 subMenuEl.style.position='absolute'
 subMenuEl.style.top=0
+
+//In HTML, the href=# attribute is used to link to the top of the current page. The # symbol is a "fragment identifier separator" that precedes a string of text that identifies a fragment on the page. This fragment can be a named anchor or an ID on the page. 
 
 //Part 4: Update menuLinks
 var menuLinks = [
@@ -92,23 +70,25 @@ menuLinks.forEach((link)=>{
       a.setAttribute('href', link.href)
       a.textContent=link.text
       topMenuEl.appendChild(a)
+      //create topMenu Element
   });
 console.log(topMenuEl)
 
 // Grabbing all topMenuEl <a> elements
 const topMenuLinks = document.querySelectorAll("a");
-//Add EventListener
+//Add EventListener to top menu ut need to prevent default
 //Attach a delegated 'click' event listener to topMenuEl.
 //The first line of code of the event listener function should call the event object's preventDefault() method.
 
 topMenuEl.addEventListener("click", function (e) {
   e.preventDefault();
+//Common targets are Element, or its children, Document, and Window
   //The second line of code of the function should immediately return if the element clicked was not an <a> element.
   if (!e.target.matches("a")) {
     return;
   }
 
-  //Log the content of the <a> to verify the handler is working.
+  //The target attribute of 'a' tag atttibute specifies where to open the linked document:
 
   //The event listener should add the active class to the <a> element that was clicked, unless it was already active, in which case it should remove it.
   e.target.classList.toggle("active");
@@ -117,13 +97,21 @@ topMenuEl.addEventListener("click", function (e) {
     if (link !== e.target) {
       link.classList.remove("active");
     }
-  });
+    const linkText=e.target.textContent
+    mainEl.innerHTML = `<h1>${linkText.toUpperCase()}</h1>`;
+      // Hide sub menu since "about" does not have subLinks
+      // Update mainEl with "About" content
+
+});
+
+//The Element.classList is a read-only property that returns a live DOMTokenList collection of the class attributes of the element. This can then be used to manipulate the class list. Using classList is a convenient alternative to accessing an element's list of classes as a space-delimited string via element.className.
   console.log(topMenuLinks)
   //===Part 5 - Adding Submenu Interaction===
   //Within the event listener, if the clicked <a> element does not yet have a class of "active" (it was inactive when clicked):
   //If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
   //Otherwise, set the CSS top property of subMenuEl to 0.
   //Hint: Caching the "link" object will come in handy for passing its subLinks array later.
+
   const clickedLink = menuLinks.find(
     (link) => link.text === e.target.textContent
   );
@@ -166,22 +154,15 @@ subMenuEl.addEventListener('click', function(event){
 // Next, the event listener should set the CSS top property of subMenuEl to 0.
   subMenuEl.style.top='0';
 // Remove the active class from each <a> element in topMenuLinks.
-topMenuLinks.forEach(link=> {
-  link.classList.remove('active')
- })
-
-
+document.querySelectorAll('#top-menu a').forEach(link => link.classList.remove('active'));
 // Update the contents of mainEl, within an <h1>, to the contents of the <a> element clicked within subMenuEl.
 const linkClicked=event.target.textContent
+console.log(event.target)
+mainEl.innerHTML = `<h1>${linkClicked.toUpperCase()}</h1>`;
 console.log(linkClicked)
-mainEl.innerHTML=linkClicked
-  // If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
-  if (linkClicked.toLowerCase() ==='about'){
-    mainEl.innerHTML='About'
-  }
+});
 
-}
-)
+
 
 
 
